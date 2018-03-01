@@ -31,7 +31,7 @@ namespace FlexiCapture_App
            
         }
         
-        private void force_match(string table_name, string acct_num, string remarks, int match_code)
+        private void force_match(string table_name, string acct_num, string remarks, int match_code, string acct_name)
         {
 
             try
@@ -39,7 +39,7 @@ namespace FlexiCapture_App
                 //OleDbConnection con = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\PC-23\Desktop\TVVS.accdb; Persist Security Info=False;");
                 conString();
                 con.Open();
-                string cmd = "update " + table_name + " set match_code='F', remarks = '" + remarks + "', match_ref = " + match_code + " where acct_num='" + acct_num + "'";
+                string cmd = "update " + table_name + " set match_code='F', remarks = '" + remarks + "', match_ref = " + match_code + " where acct_num='" + acct_num + "' and acct_name = '"+acct_name+"'";
                 OleDbCommand command = new OleDbCommand(cmd, con);
                 OleDbDataReader rdr = command.ExecuteReader();
                 con.Close();
@@ -96,8 +96,8 @@ namespace FlexiCapture_App
                 int icbs_id = get_id(txt_icbs_acct_num.Text, "icbs_trans");
 
                 //Force matching method
-                force_match("icbs_trans", txt_icbs_acct_num.Text, txt_remarks.Text, scan_id);
-                force_match("scanned_trans", txt_scan_acct_num.Text, txt_remarks.Text, icbs_id);
+                force_match("icbs_trans", txt_icbs_acct_num.Text, txt_remarks.Text, scan_id,txt_icbs_acct_name.Text);
+                force_match("scanned_trans", txt_scan_acct_num.Text, txt_remarks.Text, icbs_id,txt_scan_acct_name.Text);
 
                 MessageBox.Show("Force Match Successful", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

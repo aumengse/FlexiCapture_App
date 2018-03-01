@@ -185,7 +185,7 @@ namespace FlexiCapture_App
             }
 
         }
-        private void undo_force_match(string table_name,string acct_num)
+        private void undo_force_match(string table_name,string acct_num,string acct_name)
         {
             string match_code = get_match_code(table_name, acct_num);
 
@@ -197,7 +197,7 @@ namespace FlexiCapture_App
                     conString();
                     con.Open();
 
-                    string cmd = "update " + table_name + " set match_code='U', match_ref = Null, remarks = Null where acct_num='" + acct_num + "'";
+                    string cmd = "update " + table_name + " set match_code='U', match_ref = Null, remarks = Null where acct_num='" + acct_num + "' and acct_name='"+acct_name+"'";
                     OleDbCommand command = new OleDbCommand(cmd, con);
                     OleDbDataReader rdr = command.ExecuteReader();
                     con.Close();
@@ -229,11 +229,14 @@ namespace FlexiCapture_App
             string icbs_amount = Matched_Icbs_Records.CheckedItems[0].SubItems[4].Text;
 
             string scan_acct_num = Matched_Trans_Records.CheckedItems[0].SubItems[3].Text;
+            string scan_trans_date = Matched_Trans_Records.CheckedItems[0].SubItems[1].Text;
+            string scan_acct_name = Matched_Trans_Records.CheckedItems[0].SubItems[2].Text;
+            string scan_amount = Matched_Trans_Records.CheckedItems[0].SubItems[4].Text;
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to Undo this Data? ", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
-                undo_force_match("icbs_trans", icbs_acct_num);
-                undo_force_match("scanned_trans", scan_acct_num);
+                undo_force_match("icbs_trans", icbs_acct_num,icbs_acct_name);
+                undo_force_match("scanned_trans", scan_acct_num,scan_acct_name);
                 
                 matched_listview_view("icbs_trans","<>","U");
                 matched_listview_view("scanned_trans","<>","U");
