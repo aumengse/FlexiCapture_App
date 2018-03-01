@@ -31,7 +31,7 @@ namespace FlexiCapture_App
             {
                 conString();
                 con.Open();
-                string cmd = "SELECT * FROM archive_trans where "+field_name+""+op+""+field_name+" ORDER by trans_code,trans_date,acct_name";
+                string cmd = "SELECT * FROM archive_trans where "+field_name+""+op+"'"+field_value+"' ORDER by trans_code,trans_date,acct_name";
                 {
                     OleDbCommand command = new OleDbCommand(cmd, con);
                     OleDbDataReader rdr = command.ExecuteReader();
@@ -88,7 +88,7 @@ namespace FlexiCapture_App
             }
             else if (cmb_scan_trans.Text == "Withdrawals")
             {
-                view_archive("trans_code","=","DEPO");
+                view_archive("trans_code","=","WDL");
             }
             else
             {
